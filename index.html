@@ -3,159 +3,310 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SPGD | SIDMARKTING · Painel de Gestão Digital</title>
+<title>SPGD | SIDMARKTING · Painel Executivo</title>
 <link rel="icon" type="image/png" href="favicon-mark.png">
 <meta name="description" content="SPGD — o painel executivo da SIDMARKTING: clientes, projetos, agenda, compromissos e integrações de IA em um só lugar.">
 <meta name="author" content="Sidnei dos Santos">
 <meta name="robots" content="index, follow">
-<link rel="canonical" href="https://SEU-PROJETO.vercel.app/">
+<link rel="canonical" href="https://spgd.vercel.app/">
 <meta name="theme-color" content="#0B1220">
 <meta property="og:type" content="website">
-<meta property="og:title" content="SPGD | SIDMARKTING · Painel de Gestão Digital">
+<meta property="og:title" content="SPGD | SIDMARKTING · Painel Executivo">
 <meta property="og:description" content="Clientes, projetos, agenda e IA em um só painel.">
 <meta property="og:image" content="favicon-mark.png">
 <meta name="twitter:card" content="summary">
 <!-- 🔍 SEARCH CONSOLE: após verificar o domínio, descomente e cole a tag:
 <meta name="google-site-verification" content="COLE_O_CODIGO_AQUI"> -->
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Organization","name":"SIDMARKTING","alternateName":"SPGD","url":"https://SEU-PROJETO.vercel.app/","logo":"favicon-mark.png","email":"sidnei.santos.marcketing@gmail.com"}
+{"@context":"https://schema.org","@type":"Organization","name":"SIDMARKTING","alternateName":"SPGD","url":"https://spgd.vercel.app/","logo":"favicon-mark.png","email":"sidnei.santos.marcketing@gmail.com"}
 </script>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<!-- ===== SIDEBAR ===== -->
-<aside class="sidebar">
-  <div class="logo-box">
-    <img src="favicon-mark.png" alt="Logo SIDMARKTING">
-    <div><h1><span class="verde">SID</span>MARKTING</h1><p>SPGD · Painel Executivo</p></div>
+<div id="app" class="flex min-h-screen">
+
+<!-- BOTÃO HAMBÚRGUER (só mobile) -->
+<button id="btn-menu" class="md:hidden fixed top-4 left-4 z-40 btn-verde p-2" onclick="toggleDrawer()">
+  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+</button>
+
+<!-- OVERLAY (só mobile) -->
+<div id="drawer-overlay" class="md:hidden fixed inset-0 bg-black/50 z-30 hidden" onclick="toggleDrawer()"></div>
+
+<!-- SIDEBAR -->
+<aside id="sidebar" class="w-64 flex flex-col fixed h-full z-30 sidebar-bg">
+  <div class="p-5 border-b border-[#24344F]">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0"><img src="favicon-mark.png" alt="Logo SIDMARKTING" class="w-10 h-10 object-cover"></div>
+      <div>
+        <h1 class="font-bold text-sm text-white"><span class="text-[#25D366]">SID</span>MARKTING</h1>
+        <p class="text-xs text-[#9FB3D1]">SPGD · Painel Executivo</p>
+      </div>
+    </div>
   </div>
-  <nav>
-    <p class="nav-titulo">Principal</p>
-    <button class="nav-item ativo" onclick="showSection('painel',this)">📊 Painel Executivo</button>
-    <button class="nav-item" onclick="showSection('agenda',this)">📅 Agenda</button>
-    <button class="nav-item" onclick="showSection('reunioes',this)">🤝 Reuniões</button>
-    <button class="nav-item" onclick="showSection('compromissos',this)">✅ Compromissos</button>
-    <p class="nav-titulo">Organização</p>
-    <button class="nav-item" onclick="showSection('programas',this)">🌐 Linhas de Serviço</button>
-    <button class="nav-item" onclick="showSection('processos',this)">⚙️ Processos Internos</button>
-    <button class="nav-item" onclick="showSection('iniciativas',this)">💡 Iniciativas</button>
-    <p class="nav-titulo">Ferramentas</p>
-    <button class="nav-item" onclick="showSection('delegacoes',this)">⚡ Delegações</button>
-    <button class="nav-item" onclick="showSection('relatorios',this)">📈 Relatórios</button>
-    <button class="nav-item" onclick="showSection('integracoes',this)">🔌 Integrações</button>
+  <nav class="flex-1 py-4 overflow-y-auto scrollbar-thin">
+    <div class="px-4 mb-2 text-xs text-[#64789A] uppercase tracking-wider">Principal</div>
+    <div class="sidebar-item active px-5 py-2.5 cursor-pointer flex items-center gap-3 text-sm" onclick="showSection('dashboard',this)">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+      Painel Executivo
+    </div>
+    <div class="sidebar-item px-5 py-2.5 cursor-pointer flex items-center gap-3 text-sm" onclick="showSection('agenda',this)">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+      Agenda
+    </div>
+    <div class="sidebar-item px-5 py-2.5 cursor-pointer flex items-center gap-3 text-sm" onclick="showSection('reuniones',this)">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+      Reuniões
+    </div>
+    <div class="sidebar-item px-5 py-2.5 cursor-pointer flex items-center gap-3 text-sm" onclick="showSection('compromisos',this)">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+      Compromissos
+    </div>
+
+    <div class="px-4 mt-5 mb-2 text-xs text-[#64789A] uppercase tracking-wider">Organização</div>
+    <div class="sidebar-item px-5 py-2.5 cursor-pointer flex items-center gap-3 text-sm" onclick="showSection('programas',this)">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+      Linhas de Serviço
+    </div>
+    <div class="sidebar-item px-5 py-2.5 cursor-pointer flex items-center gap-3 text-sm" onclick="showSection('procesos',this)">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+      Processos Internos
+    </div>
+    <div class="sidebar-item px-5 py-2.5 cursor-pointer flex items-center gap-3 text-sm" onclick="showSection('iniciativas',this)">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+      Iniciativas
+    </div>
+
+    <div class="px-4 mt-5 mb-2 text-xs text-[#64789A] uppercase tracking-wider">Ferramentas</div>
+    <div class="sidebar-item px-5 py-2.5 cursor-pointer flex items-center gap-3 text-sm" onclick="showSection('delegaciones',this)">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+      Delegações
+    </div>
+    <div class="sidebar-item px-5 py-2.5 cursor-pointer flex items-center gap-3 text-sm" onclick="showSection('reportes',this)">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+      Relatórios
+    </div>
+    <div class="sidebar-item px-5 py-2.5 cursor-pointer flex items-center gap-3 text-sm" onclick="showSection('integracoes',this)">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+      Integrações
+    </div>
   </nav>
-  <div class="sidebar-rodape">
-    <div class="avatar">SD</div>
-    <div><p class="forte">Diretor: Sidnei</p><p>SIDMARKTING · SPGD v1.0</p></div>
+  <div class="p-4 border-t border-[#24344F]">
+    <div class="flex items-center gap-3">
+      <div class="w-8 h-8 bg-[#25D366] rounded-full flex items-center justify-center text-xs font-bold text-[#04240f]">SD</div>
+      <div>
+        <p class="text-xs font-medium text-white">Diretor: Sidnei</p>
+        <p class="text-xs text-[#64789A]">SIDMARKTING · SPGD v1.0</p>
+      </div>
+    </div>
   </div>
 </aside>
 
-<!-- ===== MAIN ===== -->
-<main>
-  <header class="topbar">
-    <div><h2 id="sec-title">Painel Executivo</h2><p id="sec-subtitle">Visão geral da SIDMARKTING</p></div>
-    <div class="topbar-acoes">
-      <button class="btn-verde" onclick="openQuickAdd()">＋ Novo</button>
-      <div class="sino" onclick="toggleNotifications()">🔔<span id="notif-badge" class="badge-vermelho">0</span></div>
-      <span id="current-date" class="data-hoje"></span>
+<!-- MAIN -->
+<main class="flex-1 main-area">
+  <header class="topbar sticky top-0 z-20">
+    <div>
+      <h2 id="section-title" class="text-lg font-bold text-[#EAF2FF]">Painel Executivo</h2>
+      <p id="section-subtitle" class="text-xs text-[#64789A]">Visão geral da SIDMARKTING</p>
+    </div>
+    <div class="flex items-center gap-3">
+      <div class="relative hidden sm:block">
+        <input type="text" placeholder="Buscar..." class="pl-8 pr-4 py-1.5 rounded-lg text-sm w-48 focus:outline-none focus:border-[#25D366] dark-input">
+        <svg class="w-4 h-4 absolute left-2.5 top-2 text-[#64789A]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+      </div>
+      <button onclick="openQuickAdd()" class="btn-verde px-3 py-1.5 rounded-lg text-sm font-semibold flex items-center gap-1">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+        <span class="hidden sm:inline">Novo</span>
+      </button>
+      <div class="relative cursor-pointer" onclick="toggleNotifications()">
+        <svg class="w-5 h-5 text-[#9FB3D1]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+        <span id="notif-badge" class="absolute -top-1 -right-1 w-4 h-4 bg-[#F87171] text-white text-xs rounded-full flex items-center justify-center">0</span>
+      </div>
+      <span class="text-xs text-[#64789A] hidden sm:block" id="current-date"></span>
     </div>
   </header>
 
-  <!-- PAINEL -->
-  <section id="sec-painel" class="sec">
-    <div class="kpis">
-      <div class="kpi"><span>Compromissos pendentes</span><b id="kpi-pendentes" class="t-branco">0</b><small id="kpi-vencidos" class="t-vermelho">0 vencidos</small></div>
-      <div class="kpi"><span>Reuniões esta semana</span><b id="kpi-reunioes" class="t-azul">0</b><small id="kpi-reunioes-hoje" class="t-azul">0 hoje</small></div>
-      <div class="kpi"><span>Delegações ativas</span><b id="kpi-delegacoes" class="t-ambar">0</b><small class="t-ambar">em acompanhamento</small></div>
-      <div class="kpi"><span>Taxa de entrega</span><b id="kpi-taxa" class="t-violeta">0%</b><small class="t-verde">últimos 30 dias</small></div>
-    </div>
-    <div class="grid2">
-      <div class="card"><div class="card-topo"><h3>📋 Próximas atividades</h3><button class="link-verde" onclick="showSection('agenda',document.querySelectorAll('.nav-item')[1])">Ver tudo →</button></div><div id="dash-atividades"></div></div>
-      <div class="card"><div class="card-topo"><h3>⚡ Urgentes</h3><button class="link-verde" onclick="showSection('compromissos',document.querySelectorAll('.nav-item')[3])">Ver tudo →</button></div><div id="dash-urgentes"></div></div>
-    </div>
-    <div class="grid2">
-      <div class="card"><h3>Compromissos por área</h3><canvas id="chart-areas" height="200"></canvas></div>
-      <div class="card"><h3>Estado dos compromissos</h3><canvas id="chart-estado" height="200"></canvas></div>
-    </div>
-  </section>
+  <div class="p-4 md:p-6">
 
-  <!-- AGENDA -->
-  <section id="sec-agenda" class="sec hidden">
-    <div class="card-topo" style="margin-bottom:14px">
-      <div class="semana-nav"><button class="btn-ghost" onclick="changeWeek(-1)">◀</button><span id="week-label" class="forte">Esta semana</span><button class="btn-ghost" onclick="changeWeek(1)">▶</button></div>
-      <button class="btn-verde" onclick="openModal('evento')">+ Novo Evento</button>
-    </div>
-    <div id="agenda-grid" class="agenda-grid"></div>
-    <div class="card" style="margin-top:16px"><h3>Todos os eventos</h3><div id="agenda-lista"></div></div>
-  </section>
-
-  <!-- REUNIÕES -->
-  <section id="sec-reunioes" class="sec hidden">
-    <div class="card-topo" style="margin-bottom:14px">
-      <div class="tabs"><button class="tab ativo" onclick="filterReuniones('todas',this)">Todas</button><button class="tab" onclick="filterReuniones('frequente',this)">Frequentes</button><button class="tab" onclick="filterReuniones('ocasional',this)">Ocasionais</button></div>
-      <button class="btn-verde" onclick="openModal('reuniao')">+ Nova Reunião</button>
-    </div>
-    <div id="reunioes-lista" class="coluna"></div>
-  </section>
-
-  <!-- COMPROMISSOS -->
-  <section id="sec-compromissos" class="sec hidden">
-    <div class="card-topo" style="margin-bottom:14px">
-      <div class="filtros">
-        <select id="filtro-estado" onchange="renderCompromisos()"><option value="todos">Todos os estados</option><option value="pendente">Pendente</option><option value="andamento">Em andamento</option><option value="concluido">Concluído</option><option value="vencido">Vencido</option></select>
-        <select id="filtro-prioridade" onchange="renderCompromisos()"><option value="todas">Todas as prioridades</option><option value="urgente">Urgente</option><option value="alta">Alta</option><option value="media">Média</option><option value="baixa">Baixa</option></select>
-        <select id="filtro-area" onchange="renderCompromisos()"><option value="todas">Todas as áreas</option></select>
+    <!-- DASHBOARD -->
+    <section id="sec-dashboard" class="sec fade-in">
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-6">
+        <div class="card">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs text-[#64789A] uppercase tracking-wide">Compromissos Pendentes</span>
+            <div class="w-8 h-8 bg-[#F87171]/15 rounded-lg flex items-center justify-center"><svg class="w-4 h-4 text-[#F87171]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+          </div>
+          <p class="text-2xl font-bold kpi-branco" id="kpi-pendientes">0</p>
+          <p class="text-xs text-[#F87171] mt-1"><span id="kpi-vencidos">0</span> vencidos</p>
+        </div>
+        <div class="card">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs text-[#64789A] uppercase tracking-wide">Reuniões Esta Semana</span>
+            <div class="w-8 h-8 bg-[#38BDF8]/15 rounded-lg flex items-center justify-center"><svg class="w-4 h-4 text-[#38BDF8]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
+          </div>
+          <p class="text-2xl font-bold kpi-azul" id="kpi-reuniones">0</p>
+          <p class="text-xs text-[#38BDF8] mt-1"><span id="kpi-reuniones-hoy">0</span> hoje</p>
+        </div>
+        <div class="card">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs text-[#64789A] uppercase tracking-wide">Delegações Ativas</span>
+            <div class="w-8 h-8 bg-[#FBBF24]/15 rounded-lg flex items-center justify-center"><svg class="w-4 h-4 text-[#FBBF24]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg></div>
+          </div>
+          <p class="text-2xl font-bold kpi-ambar" id="kpi-delegaciones">0</p>
+          <p class="text-xs text-[#FBBF24] mt-1">em acompanhamento</p>
+        </div>
+        <div class="card">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs text-[#64789A] uppercase tracking-wide">Taxa de Entrega</span>
+            <div class="w-8 h-8 bg-[#A78BFA]/15 rounded-lg flex items-center justify-center"><svg class="w-4 h-4 text-[#A78BFA]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+          </div>
+          <p class="text-2xl font-bold kpi-violeta" id="kpi-cumplimiento">0%</p>
+          <p class="text-xs text-[#25D366] mt-1">últimos 30 dias</p>
+        </div>
       </div>
-      <button class="btn-verde" onclick="openModal('compromisso')">+ Novo Compromisso</button>
-    </div>
-    <div id="compromissos-lista" class="coluna"></div>
-  </section>
 
-  <!-- ORGANIZAÇÃO -->
-  <section id="sec-programas" class="sec hidden"><div id="programas-grid" class="grid3"></div></section>
-  <section id="sec-processos" class="sec hidden"><div id="processos-grid" class="grid3"></div></section>
-  <section id="sec-iniciativas" class="sec hidden"><div id="iniciativas-grid" class="grid3"></div></section>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 card">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="font-bold text-[#EAF2FF]">📋 Próximas Atividades</h3>
+            <button onclick="showSection('agenda',document.querySelectorAll('.sidebar-item')[1])" class="text-xs text-[#25D366] font-semibold hover:underline">Ver tudo →</button>
+          </div>
+          <div id="dashboard-actividades" class="space-y-3 max-h-72 overflow-y-auto scrollbar-thin">
+            <p class="text-sm text-[#64789A] text-center py-8">Nenhuma atividade programada</p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="font-bold text-[#EAF2FF]">⚡ Urgentes</h3>
+            <button onclick="showSection('compromisos',document.querySelectorAll('.sidebar-item')[3])" class="text-xs text-[#25D366] font-semibold hover:underline">Ver tudo →</button>
+          </div>
+          <div id="dashboard-urgentes" class="space-y-3 max-h-72 overflow-y-auto scrollbar-thin">
+            <p class="text-sm text-[#64789A] text-center py-8">Nenhum compromisso urgente</p>
+          </div>
+        </div>
+      </div>
 
-  <!-- DELEGAÇÕES -->
-  <section id="sec-delegacoes" class="sec hidden">
-    <div class="card-topo" style="margin-bottom:14px"><p class="texto-suave">Tarefas delegadas e acompanhamento</p><button class="btn-verde" onclick="openModal('delegacao')">+ Nova Delegação</button></div>
-    <div id="delegacoes-lista" class="coluna"></div>
-  </section>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+        <div class="card"><h3 class="font-bold text-[#EAF2FF] mb-4">Compromissos por Área</h3><canvas id="chart-areas" height="200"></canvas></div>
+        <div class="card"><h3 class="font-bold text-[#EAF2FF] mb-4">Estado dos Compromissos</h3><canvas id="chart-estado" height="200"></canvas></div>
+      </div>
+    </section>
 
-  <!-- RELATÓRIOS -->
-  <section id="sec-relatorios" class="sec hidden">
-    <div class="grid2">
-      <div class="card"><h3>Resumo semanal</h3><div id="rel-semanal"></div></div>
-      <div class="card"><h3>Distribuição do tempo</h3><canvas id="chart-tempo" height="250"></canvas></div>
-      <div class="card largura-total"><h3>Compromissos por área</h3><canvas id="chart-detalhe" height="150"></canvas></div>
-    </div>
-  </section>
+    <!-- AGENDA -->
+    <section id="sec-agenda" class="sec hidden fade-in">
+      <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center gap-2">
+          <button onclick="changeWeek(-1)" class="btn-ghost p-1.5 rounded-lg">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+          </button>
+          <span class="text-sm font-semibold text-[#EAF2FF]" id="week-label">Esta semana</span>
+          <button onclick="changeWeek(1)" class="btn-ghost p-1.5 rounded-lg">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+        <button onclick="openModal('evento')" class="btn-verde px-3 py-1.5 rounded-lg text-sm font-semibold">+ Novo Evento</button>
+      </div>
+      <div id="agenda-grid" class="grid grid-cols-2 md:grid-cols-7 gap-2"></div>
+      <div class="mt-6 card"><h3 class="font-bold text-[#EAF2FF] mb-4">Todos os Eventos</h3><div id="agenda-lista" class="space-y-2"></div></div>
+    </section>
 
-  <!-- INTEGRAÇÕES -->
-  <section id="sec-integracoes" class="sec hidden">
-    <p class="texto-suave" style="margin-bottom:14px">🔌 Central de ativação — tudo <b class="t-verde">offline</b> por enquanto; cada cartão mostra a linha de ativação no <code class="t-verde">integrations.js</code>.</p>
-    <div id="grid-int" class="grid3"></div>
-  </section>
+    <!-- REUNIÕES -->
+    <section id="sec-reuniones" class="sec hidden fade-in">
+      <div class="flex items-center justify-between mb-4">
+        <div class="flex gap-2">
+          <button class="tab tab-active" onclick="filterReuniones('todas',this)">Todas</button>
+          <button class="tab" onclick="filterReuniones('frecuentes',this)">Frequentes</button>
+          <button class="tab" onclick="filterReuniones('ocasionales',this)">Ocasionais</button>
+        </div>
+        <button onclick="openModal('reunion')" class="btn-verde px-3 py-1.5 rounded-lg text-sm font-semibold">+ Nova Reunião</button>
+      </div>
+      <div id="reuniones-lista" class="space-y-4"></div>
+    </section>
+
+    <!-- COMPROMISSOS -->
+    <section id="sec-compromisos" class="sec hidden fade-in">
+      <div class="flex items-center justify-between mb-4 flex-wrap gap-2">
+        <div class="flex gap-2 flex-wrap">
+          <select id="filtro-compromiso-estado" onchange="renderCompromisos()" class="dark-input rounded-lg px-3 py-1.5 text-sm">
+            <option value="todos">Todos os estados</option>
+            <option value="pendiente">Pendente</option>
+            <option value="en-progreso">Em andamento</option>
+            <option value="completado">Concluído</option>
+            <option value="vencido">Vencido</option>
+          </select>
+          <select id="filtro-compromiso-prioridad" onchange="renderCompromisos()" class="dark-input rounded-lg px-3 py-1.5 text-sm">
+            <option value="todas">Todas as prioridades</option>
+            <option value="urgente">Urgente</option>
+            <option value="alta">Alta</option>
+            <option value="media">Média</option>
+            <option value="baja">Baixa</option>
+          </select>
+          <select id="filtro-compromiso-area" onchange="renderCompromisos()" class="dark-input rounded-lg px-3 py-1.5 text-sm">
+            <option value="todas">Todas as áreas</option>
+          </select>
+        </div>
+        <button onclick="openModal('compromiso')" class="btn-verde px-3 py-1.5 rounded-lg text-sm font-semibold">+ Novo Compromisso</button>
+      </div>
+      <div id="compromisos-lista" class="space-y-2"></div>
+    </section>
+
+    <!-- ORGANIZAÇÃO -->
+    <section id="sec-programas" class="sec hidden fade-in"><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="programas-grid"></div></section>
+    <section id="sec-procesos" class="sec hidden fade-in"><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="procesos-grid"></div></section>
+    <section id="sec-iniciativas" class="sec hidden fade-in"><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="iniciativas-grid"></div></section>
+
+    <!-- DELEGAÇÕES -->
+    <section id="sec-delegaciones" class="sec hidden fade-in">
+      <div class="flex items-center justify-between mb-4">
+        <p class="text-sm text-[#9FB3D1]">Tarefas delegadas e acompanhamento</p>
+        <button onclick="openModal('delegacion')" class="btn-verde px-3 py-1.5 rounded-lg text-sm font-semibold">+ Nova Delegação</button>
+      </div>
+      <div id="delegaciones-lista" class="space-y-3"></div>
+    </section>
+
+    <!-- RELATÓRIOS -->
+    <section id="sec-reportes" class="sec hidden fade-in">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="card"><h3 class="font-bold text-[#EAF2FF] mb-4">Resumo Semanal</h3><div id="reporte-semanal" class="space-y-3"></div></div>
+        <div class="card"><h3 class="font-bold text-[#EAF2FF] mb-4">Distribuição do Tempo</h3><canvas id="chart-tiempo" height="250"></canvas></div>
+        <div class="card lg:col-span-2"><h3 class="font-bold text-[#EAF2FF] mb-4">Compromissos por Área</h3><canvas id="chart-detalle" height="150"></canvas></div>
+      </div>
+    </section>
+
+    <!-- INTEGRAÇÕES -->
+    <section id="sec-integracoes" class="sec hidden fade-in">
+      <p class="text-sm text-[#9FB3D1] mb-4">🔌 Central de ativação — tudo <b class="text-[#25D366]">offline</b> por enquanto; cada cartão mostra a linha de ativação no <code class="text-[#25D366]">integrations.js</code>.</p>
+      <div id="grid-int" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+    </section>
+
+  </div>
 </main>
+</div>
 
 <!-- MODAL -->
-<div id="modal-overlay" class="hidden">
-  <div class="modal">
-    <div class="modal-topo"><h3 id="modal-title">Novo</h3><button class="fechar" onclick="closeModal()">✖</button></div>
-    <div id="modal-body"></div>
+<div id="modal-overlay" class="fixed inset-0 bg-black/60 modal-overlay z-50 hidden flex items-center justify-center p-4">
+  <div class="modal-box rounded-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-2xl">
+    <div class="p-5 border-b border-[#24344F] flex items-center justify-between">
+      <h3 id="modal-title" class="font-bold text-[#EAF2FF]">Novo</h3>
+      <button onclick="closeModal()" class="text-[#64789A] hover:text-white">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div id="modal-body" class="p-5"></div>
   </div>
 </div>
 
 <!-- NOTIFICAÇÕES -->
-<div id="notif-panel" class="hidden">
-  <div class="notif-topo"><h4>Notificações</h4></div>
-  <div id="notif-list"></div>
+<div id="notif-panel" class="fixed top-14 right-4 md:right-6 w-80 notif-box rounded-xl shadow-2xl z-50 hidden">
+  <div class="p-4 border-b border-[#24344F]"><h4 class="font-bold text-sm text-[#EAF2FF]">Notificações</h4></div>
+  <div id="notif-list" class="max-h-64 overflow-y-auto p-2"></div>
 </div>
 
 <script src="integrations.js"></script>
 <script src="script.js"></script>
 </body>
-                          </html>
+  </html>
