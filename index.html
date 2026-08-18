@@ -15,264 +15,147 @@
 <meta property="og:description" content="Clientes, projetos, agenda e IA em um só painel.">
 <meta property="og:image" content="favicon-mark.png">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="SPGD | SIDMARKTING">
 <!-- 🔍 SEARCH CONSOLE: após verificar o domínio, descomente e cole a tag:
 <meta name="google-site-verification" content="COLE_O_CODIGO_AQUI"> -->
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Organization","name":"SIDMARKTING","alternateName":"SPGD","url":"https://SEU-PROJETO.vercel.app/","logo":"favicon-mark.png","email":"sidnei.santos.marcketing@gmail.com"}
 </script>
-<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5.0.8/index.css">
-<style>
-*{font-family:'Inter',sans-serif}
-:root{--bg0:#0B1220;--bg1:#101A2C;--bg2:#16233A;--bg3:#1D2E4A;--bord:#24344F;--tx1:#EAF2FF;--tx2:#9FB3D1;--tx3:#64789A;--verde:#25D366;--azul:#38BDF8}
-body{background:var(--bg0)}
-.sidebar-item{transition:all .2s ease}
-.sidebar-item:hover,.sidebar-item.active{background:rgba(37,211,102,.12);border-left:3px solid var(--verde)}
-.card-hover{transition:all .3s ease}
-.card-hover:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(0,0,0,.4)}
-.priority-urgente{border-left:4px solid #F87171}
-.priority-alta{border-left:4px solid #FBBF24}
-.priority-media{border-left:4px solid #38BDF8}
-.priority-baja{border-left:4px solid #25D366}
-.modal-overlay{backdrop-filter:blur(4px)}
-.badge{font-size:.65rem;padding:2px 8px;border-radius:9999px;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
-.scrollbar-thin::-webkit-scrollbar{width:4px}
-.scrollbar-thin::-webkit-scrollbar-thumb{background:var(--bord);border-radius:4px}
-.fade-in{animation:fadeIn .3s ease-in}
-@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-.pulse-dot{animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
-.tab-active{border-bottom:3px solid var(--verde);color:var(--tx1);font-weight:600}
-input,select,textarea{font-size:.875rem;background:var(--bg3)!important;color:var(--tx1)!important;border-color:var(--bord)!important}
-input::placeholder,textarea::placeholder{color:var(--tx3)!important}
-.text-2xl{text-shadow:0 0 18px rgba(56,189,248,.35)}
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
-<body class="min-h-screen">
-<div id="app" class="flex min-h-screen">
-<aside class="w-64 bg-gradient-to-b from-[#101A2C] to-[#0B1220] text-white flex flex-col fixed h-full z-30 border-r border-[#24344F]">
-<div class="p-5 border-b border-[#24344F]">
-<div class="flex items-center gap-3">
-<img src="favicon-mark.png" alt="Logo SIDMARKTING" class="w-10 h-10 rounded-lg object-cover shadow-[0_0_18px_rgba(37,211,102,.4)]">
-<div><h1 class="font-bold text-sm"><span style="color:#25D366">SID</span>MARKTING</h1><p class="text-xs text-gray-400">SPGD · Painel Executivo</p></div>
-</div></div>
-<nav class="flex-1 py-4 overflow-y-auto scrollbar-thin">
-<div class="px-4 mb-2 text-xs text-gray-500 uppercase tracking-wider">Principal</div>
-<div class="sidebar-item active px-5 py-2.5 cursor-pointer flex items-center gap-3 text-sm" onclick="showSection('dashboard')">📊 Panel Ejecutivo</div>
-<div class="sidebar-item px-5 py-2.5 cursor-pointer flex items-center gap-3 text-sm" onclick="showSection('agenda')">📅 Agenda</div>
-<div class="sidebar-item px-5 py-2.5 cursor-pointer flex items-center gap-3 text-sm" onclick="showSection('reuniones')">🤝 Reuniones</div>
-<div class="sidebar-item px-5 py-2.5 cursor-pointer flex items-center gap-3 text-sm" onclick="showSection('compromisos')">✅ Compromisos</div>
-<div class="px-4 mt-5 mb-2 text-xs text-gray-500 uppercase tracking-wider">Organización</div>
-<div class="sidebar-item px-5 py-2.5 cursor-pointer flex items-center gap-3 text-sm" onclick="showSection('programas')">🏢 Programas</div>
-<div class="sidebar-item px-5 py-2.5 cursor-pointer flex items-center gap-3 text-sm" onclick="showSection('procesos')">⚙️ Procesos Internos</div>
-<div class="sidebar-item px-5 py-2.5 cursor-pointer flex items-center gap-3 text-sm" onclick="showSection('iniciativas')">💡 Iniciativas</div>
-<div class="px-4 mt-5 mb-2 text-xs text-gray-500 uppercase tracking-wider">Herramientas</div>
-<div class="sidebar-item px-5 py-2.5 cursor-pointer flex items-center gap-3 text-sm" onclick="showSection('delegaciones')">⚡ Delegaciones</div>
-<div class="sidebar-item px-5 py-2.5 cursor-pointer flex items-center gap-3 text-sm" onclick="showSection('reportes')">📈 Reportes</div>
-<div class="sidebar-item px-5 py-2.5 cursor-pointer flex items-center gap-3 text-sm" onclick="showSection('integraciones')">🔌 Integrações</div>
-</nav>
-<div class="p-4 border-t border-[#24344F]"><div class="flex items-center gap-3">
-<div class="w-8 h-8 bg-[#25D366] rounded-full flex items-center justify-center text-xs font-bold text-[#04240f]">SD</div>
-<div><p class="text-xs font-medium">Diretor: Sidnei</p><p class="text-xs text-gray-500">SIDMARKTING · SPGD v1.0</p></div>
-</div></div>
+<body>
+
+<!-- ===== SIDEBAR ===== -->
+<aside class="sidebar">
+  <div class="logo-box">
+    <img src="favicon-mark.png" alt="Logo SIDMARKTING">
+    <div><h1><span class="verde">SID</span>MARKTING</h1><p>SPGD · Painel Executivo</p></div>
+  </div>
+  <nav>
+    <p class="nav-titulo">Principal</p>
+    <button class="nav-item ativo" onclick="showSection('painel',this)">📊 Painel Executivo</button>
+    <button class="nav-item" onclick="showSection('agenda',this)">📅 Agenda</button>
+    <button class="nav-item" onclick="showSection('reunioes',this)">🤝 Reuniões</button>
+    <button class="nav-item" onclick="showSection('compromissos',this)">✅ Compromissos</button>
+    <p class="nav-titulo">Organização</p>
+    <button class="nav-item" onclick="showSection('programas',this)">🌐 Linhas de Serviço</button>
+    <button class="nav-item" onclick="showSection('processos',this)">⚙️ Processos Internos</button>
+    <button class="nav-item" onclick="showSection('iniciativas',this)">💡 Iniciativas</button>
+    <p class="nav-titulo">Ferramentas</p>
+    <button class="nav-item" onclick="showSection('delegacoes',this)">⚡ Delegações</button>
+    <button class="nav-item" onclick="showSection('relatorios',this)">📈 Relatórios</button>
+    <button class="nav-item" onclick="showSection('integracoes',this)">🔌 Integrações</button>
+  </nav>
+  <div class="sidebar-rodape">
+    <div class="avatar">SD</div>
+    <div><p class="forte">Diretor: Sidnei</p><p>SIDMARKTING · SPGD v1.0</p></div>
+  </div>
 </aside>
 
-<main class="flex-1 ml-64">
-<header class="bg-[#101A2C] border-b border-[#24344F] px-6 py-3 flex items-center justify-between sticky top-0 z-20">
-<div><h2 id="section-title" class="text-lg font-bold text-[#EAF2FF]">Panel Ejecutivo</h2><p id="section-subtitle" class="text-xs text-gray-500">Resumen general de la dirección</p></div>
-<div class="flex items-center gap-4">
-<input type="text" placeholder="Buscar..." class="pl-3 pr-4 py-1.5 border rounded-lg text-sm w-40 focus:outline-none">
-<button onclick="openQuickAdd()" class="bg-[#25D366] text-[#04240f] px-3 py-1.5 rounded-lg text-sm font-semibold hover:bg-[#1fb857] transition">＋ Nuevo</button>
-<div class="relative cursor-pointer" onclick="toggleNotifications()">🔔<span id="notif-badge" class="absolute -top-1 -right-2 w-4 h-4 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">3</span></div>
-<span class="text-xs text-gray-500" id="current-date"></span>
-</div></header>
+<!-- ===== MAIN ===== -->
+<main>
+  <header class="topbar">
+    <div><h2 id="sec-title">Painel Executivo</h2><p id="sec-subtitle">Visão geral da SIDMARKTING</p></div>
+    <div class="topbar-acoes">
+      <button class="btn-verde" onclick="openQuickAdd()">＋ Novo</button>
+      <div class="sino" onclick="toggleNotifications()">🔔<span id="notif-badge" class="badge-vermelho">0</span></div>
+      <span id="current-date" class="data-hoje"></span>
+    </div>
+  </header>
 
-<div class="p-6">
-<!-- DASHBOARD -->
-<section id="sec-dashboard" class="fade-in">
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-<div class="bg-[#16233A] rounded-xl p-4 border border-[#24344F] card-hover"><span class="text-xs text-gray-500 uppercase">Compromisos Pendientes</span><p class="text-2xl font-bold text-[#EAF2FF] mt-1" id="kpi-pendientes">0</p><p class="text-xs text-red-400 mt-1"><span id="kpi-vencidos">0</span> vencidos</p></div>
-<div class="bg-[#16233A] rounded-xl p-4 border border-[#24344F] card-hover"><span class="text-xs text-gray-500 uppercase">Reuniones Esta Semana</span><p class="text-2xl font-bold text-[#38BDF8] mt-1" id="kpi-reuniones">0</p><p class="text-xs text-blue-400 mt-1"><span id="kpi-reuniones-hoy">0</span> hoy</p></div>
-<div class="bg-[#16233A] rounded-xl p-4 border border-[#24344F] card-hover"><span class="text-xs text-gray-500 uppercase">Delegaciones Activas</span><p class="text-2xl font-bold text-[#FBBF24] mt-1" id="kpi-delegaciones">0</p><p class="text-xs text-amber-400 mt-1">en seguimiento</p></div>
-<div class="bg-[#16233A] rounded-xl p-4 border border-[#24344F] card-hover"><span class="text-xs text-gray-500 uppercase">Tasa de Cumplimiento</span><p class="text-2xl font-bold text-[#A78BFA] mt-1" id="kpi-cumplimiento">0%</p><p class="text-xs text-green-400 mt-1">últimos 30 días</p></div>
-</div>
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-<div class="lg:col-span-2 bg-[#16233A] rounded-xl border border-[#24344F] p-5"><div class="flex justify-between mb-4"><h3 class="font-bold text-[#EAF2FF]">📋 Próximas Actividades</h3><button onclick="showSection('agenda')" class="text-xs text-[#25D366] font-semibold hover:underline">Ver todo →</button></div><div id="dashboard-actividades" class="space-y-3 max-h-72 overflow-y-auto scrollbar-thin"></div></div>
-<div class="bg-[#16233A] rounded-xl border border-[#24344F] p-5"><div class="flex justify-between mb-4"><h3 class="font-bold text-[#EAF2FF]">⚡ Urgentes</h3><button onclick="showSection('compromisos')" class="text-xs text-[#25D366] font-semibold hover:underline">Ver todo →</button></div><div id="dashboard-urgentes" class="space-y-3 max-h-72 overflow-y-auto scrollbar-thin"></div></div>
-</div>
-<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
-<div class="bg-[#16233A] rounded-xl border border-[#24344F] p-5"><h3 class="font-bold text-[#EAF2FF] mb-4">Compromisos por Área</h3><canvas id="chart-areas" height="200"></canvas></div>
-<div class="bg-[#16233A] rounded-xl border border-[#24344F] p-5"><h3 class="font-bold text-[#EAF2FF] mb-4">Estado de Compromisos</h3><canvas id="chart-estado" height="200"></canvas></div>
-</div>
-</section>
+  <!-- PAINEL -->
+  <section id="sec-painel" class="sec">
+    <div class="kpis">
+      <div class="kpi"><span>Compromissos pendentes</span><b id="kpi-pendentes" class="t-branco">0</b><small id="kpi-vencidos" class="t-vermelho">0 vencidos</small></div>
+      <div class="kpi"><span>Reuniões esta semana</span><b id="kpi-reunioes" class="t-azul">0</b><small id="kpi-reunioes-hoje" class="t-azul">0 hoje</small></div>
+      <div class="kpi"><span>Delegações ativas</span><b id="kpi-delegacoes" class="t-ambar">0</b><small class="t-ambar">em acompanhamento</small></div>
+      <div class="kpi"><span>Taxa de entrega</span><b id="kpi-taxa" class="t-violeta">0%</b><small class="t-verde">últimos 30 dias</small></div>
+    </div>
+    <div class="grid2">
+      <div class="card"><div class="card-topo"><h3>📋 Próximas atividades</h3><button class="link-verde" onclick="showSection('agenda',document.querySelectorAll('.nav-item')[1])">Ver tudo →</button></div><div id="dash-atividades"></div></div>
+      <div class="card"><div class="card-topo"><h3>⚡ Urgentes</h3><button class="link-verde" onclick="showSection('compromissos',document.querySelectorAll('.nav-item')[3])">Ver tudo →</button></div><div id="dash-urgentes"></div></div>
+    </div>
+    <div class="grid2">
+      <div class="card"><h3>Compromissos por área</h3><canvas id="chart-areas" height="200"></canvas></div>
+      <div class="card"><h3>Estado dos compromissos</h3><canvas id="chart-estado" height="200"></canvas></div>
+    </div>
+  </section>
 
-<!-- AGENDA -->
-<section id="sec-agenda" class="hidden fade-in">
-<div class="flex items-center justify-between mb-4">
-<div class="flex items-center gap-2"><button onclick="changeWeek(-1)" class="p-1.5 hover:bg-[#1D2E4A] rounded-lg text-[#EAF2FF]">◀</button><span class="text-sm font-semibold text-[#EAF2FF]" id="week-label">Esta semana</span><button onclick="changeWeek(1)" class="p-1.5 hover:bg-[#1D2E4A] rounded-lg text-[#EAF2FF]">▶</button></div>
-<button onclick="openModal('evento')" class="bg-[#25D366] text-[#04240f] px-3 py-1.5 rounded-lg text-sm font-semibold transition">+ Nuevo Evento</button>
-</div>
-<div id="agenda-grid" class="grid grid-cols-1 md:grid-cols-7 gap-2"></div>
-<div class="mt-6 bg-[#16233A] rounded-xl border border-[#24344F] p-5"><h3 class="font-bold text-[#EAF2FF] mb-4">Todos los Eventos</h3><div id="agenda-lista" class="space-y-2"></div></div>
-</section>
+  <!-- AGENDA -->
+  <section id="sec-agenda" class="sec hidden">
+    <div class="card-topo" style="margin-bottom:14px">
+      <div class="semana-nav"><button class="btn-ghost" onclick="changeWeek(-1)">◀</button><span id="week-label" class="forte">Esta semana</span><button class="btn-ghost" onclick="changeWeek(1)">▶</button></div>
+      <button class="btn-verde" onclick="openModal('evento')">+ Novo Evento</button>
+    </div>
+    <div id="agenda-grid" class="agenda-grid"></div>
+    <div class="card" style="margin-top:16px"><h3>Todos os eventos</h3><div id="agenda-lista"></div></div>
+  </section>
 
-<!-- REUNIONES -->
-<section id="sec-reuniones" class="hidden fade-in">
-<div class="flex items-center justify-between mb-4">
-<div class="flex gap-2"><button class="tab-active px-3 py-1.5 text-sm" onclick="filterReuniones('todas')">Todas</button><button class="px-3 py-1.5 text-sm text-gray-500" onclick="filterReuniones('frecuentes')">Frecuentes</button><button class="px-3 py-1.5 text-sm text-gray-500" onclick="filterReuniones('ocasionales')">Ocasionales</button></div>
-<button onclick="openModal('reunion')" class="bg-[#25D366] text-[#04240f] px-3 py-1.5 rounded-lg text-sm font-semibold">+ Nueva Reunión</button>
-</div>
-<div id="reuniones-lista" class="space-y-4"></div>
-</section>
+  <!-- REUNIÕES -->
+  <section id="sec-reunioes" class="sec hidden">
+    <div class="card-topo" style="margin-bottom:14px">
+      <div class="tabs"><button class="tab ativo" onclick="filterReuniones('todas',this)">Todas</button><button class="tab" onclick="filterReuniones('frequente',this)">Frequentes</button><button class="tab" onclick="filterReuniones('ocasional',this)">Ocasionais</button></div>
+      <button class="btn-verde" onclick="openModal('reuniao')">+ Nova Reunião</button>
+    </div>
+    <div id="reunioes-lista" class="coluna"></div>
+  </section>
 
-<!-- COMPROMISOS -->
-<section id="sec-compromisos" class="hidden fade-in">
-<div class="flex items-center justify-between mb-4 flex-wrap gap-2">
-<div class="flex gap-2 flex-wrap">
-<select id="filtro-compromiso-estado" onchange="renderCompromisos()" class="border rounded-lg px-3 py-1.5 text-sm"><option value="todos">Todos los estados</option><option value="pendiente">Pendiente</option><option value="en-progreso">En progreso</option><option value="completado">Completado</option><option value="vencido">Vencido</option></select>
-<select id="filtro-compromiso-prioridad" onchange="renderCompromisos()" class="border rounded-lg px-3 py-1.5 text-sm"><option value="todas">Todas las prioridades</option><option value="urgente">Urgente</option><option value="alta">Alta</option><option value="media">Media</option><option value="baja">Baja</option></select>
-<select id="filtro-compromiso-area" onchange="renderCompromisos()" class="border rounded-lg px-3 py-1.5 text-sm"><option value="todas">Todas las áreas</option></select>
-</div>
-<button onclick="openModal('compromiso')" class="bg-[#25D366] text-[#04240f] px-3 py-1.5 rounded-lg text-sm font-semibold">+ Nuevo Compromiso</button>
-</div>
-<div id="compromisos-lista" class="space-y-2"></div>
-</section>
+  <!-- COMPROMISSOS -->
+  <section id="sec-compromissos" class="sec hidden">
+    <div class="card-topo" style="margin-bottom:14px">
+      <div class="filtros">
+        <select id="filtro-estado" onchange="renderCompromisos()"><option value="todos">Todos os estados</option><option value="pendente">Pendente</option><option value="andamento">Em andamento</option><option value="concluido">Concluído</option><option value="vencido">Vencido</option></select>
+        <select id="filtro-prioridade" onchange="renderCompromisos()"><option value="todas">Todas as prioridades</option><option value="urgente">Urgente</option><option value="alta">Alta</option><option value="media">Média</option><option value="baixa">Baixa</option></select>
+        <select id="filtro-area" onchange="renderCompromisos()"><option value="todas">Todas as áreas</option></select>
+      </div>
+      <button class="btn-verde" onclick="openModal('compromisso')">+ Novo Compromisso</button>
+    </div>
+    <div id="compromissos-lista" class="coluna"></div>
+  </section>
 
-<!-- PROGRAMAS / PROCESOS / INICIATIVAS -->
-<section id="sec-programas" class="hidden fade-in"><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="programas-grid"></div></section>
-<section id="sec-procesos" class="hidden fade-in"><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="procesos-grid"></div></section>
-<section id="sec-iniciativas" class="hidden fade-in"><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="iniciativas-grid"></div></section>
+  <!-- ORGANIZAÇÃO -->
+  <section id="sec-programas" class="sec hidden"><div id="programas-grid" class="grid3"></div></section>
+  <section id="sec-processos" class="sec hidden"><div id="processos-grid" class="grid3"></div></section>
+  <section id="sec-iniciativas" class="sec hidden"><div id="iniciativas-grid" class="grid3"></div></section>
 
-<!-- DELEGACIONES -->
-<section id="sec-delegaciones" class="hidden fade-in">
-<div class="flex items-center justify-between mb-4"><p class="text-sm text-gray-500">Tareas delegadas y su seguimiento</p><button onclick="openModal('delegacion')" class="bg-[#25D366] text-[#04240f] px-3 py-1.5 rounded-lg text-sm font-semibold">+ Nueva Delegación</button></div>
-<div id="delegaciones-lista" class="space-y-3"></div>
-</section>
+  <!-- DELEGAÇÕES -->
+  <section id="sec-delegacoes" class="sec hidden">
+    <div class="card-topo" style="margin-bottom:14px"><p class="texto-suave">Tarefas delegadas e acompanhamento</p><button class="btn-verde" onclick="openModal('delegacao')">+ Nova Delegação</button></div>
+    <div id="delegacoes-lista" class="coluna"></div>
+  </section>
 
-<!-- REPORTES -->
-<section id="sec-reportes" class="hidden fade-in">
-<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-<div class="bg-[#16233A] rounded-xl border border-[#24344F] p-5"><h3 class="font-bold text-[#EAF2FF] mb-4">Resumen Semanal</h3><div id="reporte-semanal" class="space-y-3"></div></div>
-<div class="bg-[#16233A] rounded-xl border border-[#24344F] p-5"><h3 class="font-bold text-[#EAF2FF] mb-4">Distribución del Tiempo</h3><canvas id="chart-tiempo" height="250"></canvas></div>
-<div class="bg-[#16233A] rounded-xl border border-[#24344F] p-5 lg:col-span-2"><h3 class="font-bold text-[#EAF2FF] mb-4">Compromisos por Programa/Proceso</h3><canvas id="chart-detalle" height="150"></canvas></div>
-</div>
-</section>
+  <!-- RELATÓRIOS -->
+  <section id="sec-relatorios" class="sec hidden">
+    <div class="grid2">
+      <div class="card"><h3>Resumo semanal</h3><div id="rel-semanal"></div></div>
+      <div class="card"><h3>Distribuição do tempo</h3><canvas id="chart-tempo" height="250"></canvas></div>
+      <div class="card largura-total"><h3>Compromissos por área</h3><canvas id="chart-detalhe" height="150"></canvas></div>
+    </div>
+  </section>
 
-<!-- INTEGRACIONES -->
-<section id="sec-integraciones" class="hidden fade-in">
-<p class="text-sm text-gray-500 mb-4">🔌 Central de ativação — tudo <b class="text-[#25D366]">offline</b> agora; cada cartão mostra a linha de ativação no <code class="text-[#25D366]">integrations.js</code>.</p>
-<div id="grid-int" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
-</section>
-</div>
+  <!-- INTEGRAÇÕES -->
+  <section id="sec-integracoes" class="sec hidden">
+    <p class="texto-suave" style="margin-bottom:14px">🔌 Central de ativação — tudo <b class="t-verde">offline</b> por enquanto; cada cartão mostra a linha de ativação no <code class="t-verde">integrations.js</code>.</p>
+    <div id="grid-int" class="grid3"></div>
+  </section>
 </main>
-</div>
 
 <!-- MODAL -->
-<div id="modal-overlay" class="fixed inset-0 bg-black/60 modal-overlay z-50 hidden flex items-center justify-center p-4">
-<div class="bg-[#16233A] rounded-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-2xl border border-[#24344F]">
-<div class="p-5 border-b border-[#24344F] flex items-center justify-between"><h3 id="modal-title" class="font-bold text-[#EAF2FF]">Nuevo</h3><button onclick="closeModal()" class="text-gray-400 hover:text-white">✖</button></div>
-<div id="modal-body" class="p-5"></div>
-</div></div>
+<div id="modal-overlay" class="hidden">
+  <div class="modal">
+    <div class="modal-topo"><h3 id="modal-title">Novo</h3><button class="fechar" onclick="closeModal()">✖</button></div>
+    <div id="modal-body"></div>
+  </div>
+</div>
 
-<!-- NOTIFICACIONES -->
-<div id="notif-panel" class="fixed top-14 right-6 w-80 bg-[#16233A] rounded-xl shadow-2xl border border-[#24344F] z-50 hidden">
-<div class="p-4 border-b border-[#24344F]"><h4 class="font-bold text-sm text-[#EAF2FF]">Notificaciones</h4></div>
-<div id="notif-list" class="max-h-64 overflow-y-auto p-2"></div>
+<!-- NOTIFICAÇÕES -->
+<div id="notif-panel" class="hidden">
+  <div class="notif-topo"><h4>Notificações</h4></div>
+  <div id="notif-list"></div>
 </div>
 
 <script src="integrations.js"></script>
-<script>
-Chart.defaults.color='#9FB3D1';Chart.defaults.borderColor='#24344F';
-const AREAS={programas:[{id:'escuela',nombre:'Escuela',icon:'🏫',color:'#3B82F6'},{id:'capacitacion',nombre:'Capacitación',icon:'📚',color:'#8B5CF6'},{id:'iujo',nombre:'IUJO',icon:'🎓',color:'#EC4899'},{id:'educom',nombre:'Educom',icon:'💻',color:'#10B981'},{id:'servicios',nombre:'Servicios',icon:'🤝',color:'#F59E0B'}],procesos:[{id:'administracion',nombre:'Administración',icon:'📊',color:'#6366F1'},{id:'planificacion',nombre:'Planificación',icon:'📋',color:'#14B8A6'},{id:'comunicacion',nombre:'Comunicación',icon:'📢',color:'#F97316'},{id:'financiamiento',nombre:'Financiamiento',icon:'💰',color:'#22C55E'},{id:'contraloria',nombre:'Contraloría',icon:'🔍',color:'#EF4444'}],iniciativas:[{id:'espiritualidad',nombre:'Espiritualidad',icon:'✝️',color:'#7C3AED'},{id:'proteccion',nombre:'Protección',icon:'🛡️',color:'#0EA5E9'},{id:'genero',nombre:'Género',icon:'⚖️',color:'#D946EF'},{id:'diversificacion',nombre:'Diversificación Formativa',icon:'🌱',color:'#84CC16'},{id:'politica-formacion',nombre:'Política de Formación',icon:'📜',color:'#F43F5E'},{id:'fortalecimiento',nombre:'Fortalecimiento Institucional',icon:'🏗️',color:'#0891B2'}]};
-function getAllAreas(){return[...AREAS.programas,...AREAS.procesos,...AREAS.iniciativas]}
-let state={reuniones:[],compromisos:[],eventos:[],delegaciones:[],currentWeekOffset:0};
-function loadState(){const s=localStorage.getItem('spgd-state');if(s)state={...state,...JSON.parse(s)};if(state.reuniones.length===0)loadSampleData()}
-function saveState(){localStorage.setItem('spgd-state',JSON.stringify(state))}
-function loadSampleData(){const t=new Date(),f=d=>d.toISOString().split('T')[0],ad=(d,n)=>{const r=new Date(d);r.setDate(r.getDate()+n);return r};
-state.reuniones=[{id:'r1',titulo:'Reunión de Directores de Programas',tipo:'frecuente',fecha:f(t),hora:'9:00 AM',duracion:'2h',participantes:['Dir. Escuela','Dir. Capacitación','Dir. IUJO'],acuerdos:[{id:'a1',texto:'Revisar presupuesto Q2 de Educom',responsable:'Dir. Educom',fechaLimite:f(ad(t,5)),estado:'pendiente',prioridad:'alta'},{id:'a2',texto:'Enviar informe de matrícula',responsable:'Dir. Escuela',fechaLimite:f(ad(t,3)),estado:'en-progreso',prioridad:'urgente'}],notas:''},{id:'r2',titulo:'Comité Ejecutivo',tipo:'frecuente',fecha:f(ad(t,2)),hora:'10:00 AM',duracion:'1.5h',participantes:['Subdirector','Dir. Admin'],acuerdos:[{id:'a3',texto:'Aprobar plan de comunicación',responsable:'Dir. Comunicación',fechaLimite:f(ad(t,7)),estado:'pendiente',prioridad:'alta'}],notas:''}];
-state.compromisos=[{id:'c1',titulo:'Revisar y aprobar presupuesto anual',area:'financiamiento',prioridad:'urgente',estado:'en-progreso',fechaLimite:f(ad(t,3)),responsable:'Dir. Financiamiento',origen:'Comité Ejecutivo',delegada:true,fechaCreacion:f(ad(t,-5))},{id:'c2',titulo:'Firmar convenio con aliado internacional',area:'servicios',prioridad:'alta',estado:'pendiente',fechaLimite:f(ad(t,7)),responsable:'Dir. Servicios',origen:'Reunión Directores',delegada:true,fechaCreacion:f(ad(t,-3))},{id:'c3',titulo:'Preparar intervención de espiritualidad',area:'espiritualidad',prioridad:'media',estado:'pendiente',fechaLimite:f(ad(t,15)),responsable:'Coord. Espiritualidad',origen:'Equipo Asesor',delegada:true,fechaCreacion:f(ad(t,-2))},{id:'c4',titulo:'Reunión personal con donante principal',area:'financiamiento',prioridad:'urgente',estado:'pendiente',fechaLimite:f(ad(t,1)),responsable:'Director General',origen:'Inmediato',delegada:false,fechaCreacion:f(t)},{id:'c5',titulo:'Aprobar diseño curricular actualizado',area:'escuela',prioridad:'alta',estado:'pendiente',fechaLimite:f(ad(t,10)),responsable:'Dir. Escuela',origen:'Reunión Directores',delegada:true,fechaCreacion:f(ad(t,-1))}];
-state.eventos=[{id:'e1',titulo:'Reunión Directores de Programas',tipo:'reunion',fecha:f(t),hora:'9:00 AM',area:'programas',notas:''},{id:'e2',titulo:'Reunión con donante principal',tipo:'externa',fecha:f(ad(t,1)),hora:'11:00 AM',area:'financiamiento',notas:'Preparar presentación'},{id:'e3',titulo:'Comité Ejecutivo',tipo:'reunion',fecha:f(ad(t,2)),hora:'10:00 AM',area:'direccion',notas:''},{id:'e4',titulo:'Visita a centro educativo',tipo:'campo',fecha:f(ad(t,5)),hora:'10:00 AM',area:'escuela',notas:'Centro Piloto'}];
-state.delegaciones=[{id:'d1',tarea:'Coordinar logística del evento aniversario',delegadoA:'Dir. Comunicación',fechaDelegacion:f(ad(t,-7)),fechaLimite:f(ad(t,5)),estado:'en-progreso',notas:'Confirmar lugar'},{id:'d2',tarea:'Elaborar reporte financiero trimestral',delegadoA:'Dir. Administración',fechaDelegacion:f(ad(t,-10)),fechaLimite:f(ad(t,3)),estado:'en-progreso',notas:''}];
-saveState()}
-function showSection(s){document.querySelectorAll('[id^="sec-"]').forEach(x=>x.classList.add('hidden'));document.getElementById('sec-'+s).classList.remove('hidden');document.querySelectorAll('.sidebar-item').forEach(i=>i.classList.remove('active'));if(event&&event.target)event.target.closest('.sidebar-item')?.classList.add('active');
-const T={dashboard:['Panel Ejecutivo','Resumen general de la dirección'],agenda:['Agenda','Gestión de eventos y reuniones'],reuniones:['Reuniones','Seguimiento de reuniones y acuerdos'],compromisos:['Compromisos','Acuerdos, tareas y seguimiento'],programas:['Programas Autónomos','Unidades operativas'],procesos:['Procesos Internos','Áreas de la dirección'],iniciativas:['Iniciativas','Proyectos transversales'],delegaciones:['Delegaciones','Tareas delegadas y seguimiento'],reportes:['Reportes','Análisis y métricas de gestión'],integraciones:['Integrações','Supabase · MCP · WhatsApp · Email · Cron']};
-document.getElementById('section-title').textContent=T[s][0];document.getElementById('section-subtitle').textContent=T[s][1];
-if(s==='dashboard')renderDashboard();if(s==='agenda')renderAgenda();if(s==='reuniones')renderReuniones();if(s==='compromisos')renderCompromisos();if(s==='programas')renderAreaGrid('programas');if(s==='procesos')renderAreaGrid('procesos');if(s==='iniciativas')renderAreaGrid('iniciativas');if(s==='delegaciones')renderDelegaciones();if(s==='reportes')renderReportes();if(s==='integraciones')renderIntegraciones()}
-function renderDashboard(){const today=new Date().toISOString().split('T')[0];const pend=state.compromisos.filter(c=>c.estado!=='completado');const venc=pend.filter(c=>c.fechaLimite<today);const hoy=state.eventos.filter(e=>e.fecha===today);const comp30=state.compromisos.filter(c=>c.estado==='completado').length;const tasa=state.compromisos.length>0?Math.round(comp30/state.compromisos.length*100):0;
-document.getElementById('kpi-pendientes').textContent=pend.length;document.getElementById('kpi-vencidos').textContent=venc.length;document.getElementById('kpi-reuniones').textContent=state.eventos.length;document.getElementById('kpi-reuniones-hoy').textContent=hoy.length;document.getElementById('kpi-delegaciones').textContent=state.delegaciones.filter(d=>d.estado!=='completado').length;document.getElementById('kpi-cumplimiento').textContent=tasa+'%';
-const prox=state.eventos.filter(e=>e.fecha>=today).sort((a,b)=>a.fecha.localeCompare(b.fecha)).slice(0,6);
-document.getElementById('dashboard-actividades').innerHTML=prox.length?prox.map(e=>{const a=getAllAreas().find(x=>x.id===e.area)||{icon:'📌',color:'#6B7280',nombre:e.area};return`<div class="flex items-center gap-3 p-3 rounded-lg border border-[#24344F] hover:bg-[#1D2E4A] transition"><div class="text-center min-w-[48px]"><div class="text-xs text-gray-500">${formatDateShort(e.fecha)}</div><div class="text-xs font-semibold text-[#EAF2FF]">${e.hora}</div></div><div class="w-1 h-8 rounded-full" style="background:${a.color}"></div><div class="flex-1"><p class="text-sm font-medium text-[#EAF2FF]">${e.titulo}</p><p class="text-xs text-gray-500">${a.nombre}</p></div><span class="badge" style="background:${a.color}20;color:${a.color}">${e.tipo}</span></div>`}).join(''):'<p class="text-sm text-gray-500 text-center py-8">No hay actividades</p>';
-const urg=state.compromisos.filter(c=>(c.prioridad==='urgente'||c.prioridad==='alta')&&c.estado!=='completado').sort((a,b)=>a.fechaLimite.localeCompare(b.fechaLimite)).slice(0,5);
-document.getElementById('dashboard-urgentes').innerHTML=urg.length?urg.map(c=>{const v=c.fechaLimite<today;return`<div class="p-3 rounded-lg border border-[#24344F] priority-${c.prioridad}"><p class="text-sm font-medium text-[#EAF2FF]">${c.titulo}</p><div class="flex justify-between mt-1"><span class="text-xs text-gray-500">${c.responsable}</span><span class="text-xs ${v?'text-red-400 font-semibold':'text-gray-500'}">${v?'⚠️ ':''}${formatDateShort(c.fechaLimite)}</span></div></div>`}).join(''):'<p class="text-sm text-gray-500 text-center py-8">Sin urgentes ✨</p>';
-renderCharts()}
-function renderCharts(){const ac={};state.compromisos.filter(c=>c.estado!=='completado').forEach(c=>{const a=getAllAreas().find(x=>x.id===c.area);const n=a?a.nombre:c.area;ac[n]=(ac[n]||0)+1});
-const c1=document.getElementById('chart-areas');if(c1._chart)c1._chart.destroy();c1._chart=new Chart(c1,{type:'bar',data:{labels:Object.keys(ac),datasets:[{data:Object.values(ac),backgroundColor:['#3B82F6','#8B5CF6','#EC4899','#10B981','#F59E0B','#6366F1','#14B8A6','#F97316','#22C55E','#EF4444'],borderRadius:6}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{stepSize:1}}}}});
-const es={'Pendiente':0,'En progreso':0,'Completado':0,'Vencido':0};const today=new Date().toISOString().split('T')[0];state.compromisos.forEach(c=>{if(c.estado==='completado')es['Completado']++;else if(c.fechaLimite<today)es['Vencido']++;else if(c.estado==='en-progreso')es['En progreso']++;else es['Pendiente']++});
-const c2=document.getElementById('chart-estado');if(c2._chart)c2._chart.destroy();c2._chart=new Chart(c2,{type:'doughnut',data:{labels:Object.keys(es),datasets:[{data:Object.values(es),backgroundColor:['#64789A','#FBBF24','#25D366','#F87171'],borderWidth:0}]},options:{responsive:true,cutout:'65%',plugins:{legend:{position:'bottom',labels:{boxWidth:12}}}}})}
-function renderAgenda(){const today=new Date();const start=new Date(today);start.setDate(today.getDate()-today.getDay()+1+(state.currentWeekOffset*7));const days=['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];const grid=document.getElementById('agenda-grid');grid.innerHTML='';
-for(let i=0;i<7;i++){const day=new Date(start);day.setDate(start.getDate()+i);const ds=day.toISOString().split('T')[0];const isT=ds===today.toISOString().split('T')[0];const evs=state.eventos.filter(e=>e.fecha===ds);
-grid.innerHTML+=`<div class="bg-[#16233A] rounded-xl border ${isT?'border-[#25D366]':'border-[#24344F]'} p-3 min-h-[160px]"><div class="flex items-center justify-between mb-2"><span class="text-xs font-semibold ${isT?'text-[#25D366]':'text-gray-500'}">${days[i]}</span><span class="text-sm font-bold ${isT?'bg-[#25D366] text-[#04240f] w-6 h-6 rounded-full flex items-center justify-center text-xs':'text-[#EAF2FF]'}">${day.getDate()}</span></div><div class="space-y-1">${evs.map(e=>`<div class="text-xs p-1.5 rounded border-l-2 border-[#25D366] cursor-pointer hover:bg-[#1D2E4A]" onclick="editEvento('${e.id}')"><p class="font-medium text-gray-300 truncate">${e.titulo}</p><p class="text-gray-500">${e.hora}</p></div>`).join('')}</div></div>`}
-const end=new Date(start);end.setDate(start.getDate()+6);document.getElementById('week-label').textContent=`${formatDateShort(start.toISOString().split('T')[0])} - ${formatDateShort(end.toISOString().split('T')[0])}`;
-document.getElementById('agenda-lista').innerHTML=state.eventos.sort((a,b)=>a.fecha.localeCompare(b.fecha)).map(e=>`<div class="flex items-center gap-4 p-3 rounded-lg border border-[#24344F] hover:bg-[#1D2E4A]"><div class="text-center min-w-[50px]"><div class="text-lg font-bold text-[#EAF2FF]">${new Date(e.fecha+'T12:00:00').getDate()}</div><div class="text-xs text-gray-500">${formatDateShort(e.fecha)}</div></div><div class="flex-1"><p class="text-sm font-medium text-[#EAF2FF]">${e.titulo}</p><p class="text-xs text-gray-500">${e.hora} · ${e.tipo}</p></div><button onclick="editEvento('${e.id}')" class="p-1 hover:bg-[#1D2E4A] rounded">✏️</button><button onclick="deleteEvento('${e.id}')" class="p-1 hover:bg-red-900/30 rounded">🗑️</button></div>`).join('')}
-function changeWeek(d){state.currentWeekOffset+=d;renderAgenda()}
-function renderReuniones(filter){let rs=[...state.reuniones].sort((a,b)=>b.fecha.localeCompare(a.fecha));if(filter==='frecuentes')rs=rs.filter(r=>r.tipo==='frecuente');if(filter==='ocasionales')rs=rs.filter(r=>r.tipo==='ocasional');
-document.getElementById('reuniones-lista').innerHTML=rs.map(r=>{const tot=r.acuerdos.length,comp=r.acuerdos.filter(a=>a.estado==='completado').length,prog=tot>0?Math.round(comp/tot*100):0;
-return`<div class="bg-[#16233A] rounded-xl border border-[#24344F] p-5 card-hover"><div class="flex items-start justify-between mb-3"><div><div class="flex items-center gap-2"><h4 class="font-bold text-[#EAF2FF]">${r.titulo}</h4><span class="badge ${r.tipo==='frecuente'?'bg-blue-900/40 text-blue-300':'bg-gray-700/40 text-gray-300'}">${r.tipo}</span></div><p class="text-xs text-gray-500 mt-1">${formatDateLong(r.fecha)} · ${r.hora} · ${r.duracion}</p></div><div class="flex gap-1"><button onclick="editReunion('${r.id}')" class="p-1.5 hover:bg-[#1D2E4A] rounded-lg">✏️</button><button onclick="deleteReunion('${r.id}')" class="p-1.5 hover:bg-red-900/30 rounded-lg">🗑️</button></div></div>
-<div class="flex flex-wrap gap-1 mb-3">${r.participantes.map(p=>`<span class="text-xs bg-[#1D2E4A] text-gray-300 px-2 py-0.5 rounded-full">${p}</span>`).join('')}</div>
-<div class="mb-3"><div class="flex justify-between mb-1"><span class="text-xs text-gray-500">Acuerdos: ${comp}/${tot}</span><span class="text-xs font-semibold ${prog===100?'text-green-400':'text-[#FBBF24]'}">${prog}%</span></div><div class="w-full bg-[#1D2E4A] rounded-full h-1.5"><div class="h-1.5 rounded-full ${prog===100?'bg-green-500':'bg-[#FBBF24]'}" style="width:${prog}%"></div></div></div>
-<div class="space-y-2">${r.acuerdos.map(a=>{const v=a.fechaLimite<new Date().toISOString().split('T')[0]&&a.estado!=='completado';return`<div class="flex items-center gap-3 p-2 rounded-lg hover:bg-[#1D2E4A] ${v?'bg-red-900/20':''}"><button onclick="toggleAcuerdo('${r.id}','${a.id}')" class="w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 ${a.estado==='completado'?'bg-green-500 border-green-500':'border-gray-500 hover:border-[#25D366]'}">${a.estado==='completado'?'✓':''}</button><div class="flex-1 min-w-0"><p class="text-sm ${a.estado==='completado'?'line-through text-gray-500':'text-gray-300'}">${a.texto}</p><p class="text-xs text-gray-500">${a.responsable} · ${v?'⚠️ Vencido':formatDateShort(a.fechaLimite)}</p></div><span class="badge ${a.prioridad==='urgente'?'bg-red-900/40 text-red-300':a.prioridad==='alta'?'bg-amber-900/40 text-amber-300':'bg-blue-900/40 text-blue-300'}">${a.prioridad}</span></div>`}).join('')}</div>
-<button onclick="addAcuerdoToReunion('${r.id}')" class="mt-3 text-xs text-[#25D366] font-semibold hover:underline">+ Agregar acuerdo</button></div>`}).join('')}
-function filterReuniones(f){renderReuniones(f)}
-function toggleAcuerdo(rid,aid){const r=state.reuniones.find(x=>x.id===rid);const a=r.acuerdos.find(x=>x.id===aid);a.estado=a.estado==='completado'?'pendiente':'completado';saveState();renderReuniones()}
-function addAcuerdoToReunion(rid){const r=state.reuniones.find(x=>x.id===rid);const t=prompt('Descripción del acuerdo:');if(!t)return;const resp=prompt('Responsable:')||'Sin asignar';const fl=prompt('Fecha límite (YYYY-MM-DD):',new Date(Date.now()+7*864e5).toISOString().split('T')[0]);if(!fl)return;r.acuerdos.push({id:'a'+Date.now(),texto:t,responsable:resp,fechaLimite:fl,estado:'pendiente',prioridad:'media'});saveState();renderReuniones()}
-function renderCompromisos(){const ef=document.getElementById('filtro-compromiso-estado').value,pf=document.getElementById('filtro-compromiso-prioridad').value,af=document.getElementById('filtro-compromiso-area').value;const sel=document.getElementById('filtro-compromiso-area');if(sel.options.length<=1)getAllAreas().forEach(a=>{const o=document.createElement('option');o.value=a.id;o.textContent=a.nombre;sel.appendChild(o)});
-let items=[...state.compromisos];const today=new Date().toISOString().split('T')[0];items.forEach(c=>{if(c.estado!=='completado'&&c.fechaLimite<today)c._vencido=true});
-if(ef!=='todos'){if(ef==='vencido')items=items.filter(c=>c._vencido);else items=items.filter(c=>c.estado===ef)}
-if(pf!=='todas')items=items.filter(c=>c.prioridad===pf);if(af!=='todas')items=items.filter(c=>c.area===af);
-items.sort((a,b)=>({urgente:0,alta:1,media:2,baja:3}[a.prioridad]-{urgente:0,alta:1,media:2,baja:3}[b.prioridad])||a.fechaLimite.localeCompare(b.fechaLimite));
-const L={'pendiente':'Pendiente','en-progreso':'En progreso','completado':'Completado'},C={'pendiente':'bg-gray-700/40 text-gray-300','en-progreso':'bg-blue-900/40 text-blue-300','completado':'bg-green-900/40 text-green-300'};
-document.getElementById('compromisos-lista').innerHTML=items.length?items.map(c=>{const a=getAllAreas().find(x=>x.id===c.area)||{icon:'📌',nombre:c.area};return`<div class="bg-[#16233A] rounded-xl border border-[#24344F] p-4 card-hover priority-${c.prioridad}"><div class="flex items-start gap-3"><button onclick="toggleCompromisoEstado('${c.id}')" class="mt-1 w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 ${c.estado==='completado'?'bg-green-500 border-green-500':'border-gray-500 hover:border-[#25D366]'}">${c.estado==='completado'?'✓':''}</button><div class="flex-1 min-w-0"><div class="flex items-center gap-2 flex-wrap"><h4 class="text-sm font-semibold text-[#EAF2FF] ${c.estado==='completado'?'line-through opacity-50':''}">${c.titulo}</h4>${c.delegada?'<span class="badge bg-purple-900/40 text-purple-300">Delegado</span>':''}${c._vencido?'<span class="badge bg-red-900/40 text-red-300">Vencido</span>':''}</div><div class="flex items-center gap-3 mt-1.5 flex-wrap"><span class="text-xs text-gray-500">${a.icon} ${a.nombre}</span><span class="text-xs text-gray-500">👤 ${c.responsable}</span><span class="text-xs text-gray-500">📅 ${formatDateShort(c.fechaLimite)}</span><span class="text-xs text-gray-500">📎 ${c.origen}</span></div></div><div class="flex items-center gap-2"><span class="badge ${C[c.estado]}">${L[c.estado]}</span><button onclick="editCompromiso('${c.id}')" class="p-1 hover:bg-[#1D2E4A] rounded">✏️</button><button onclick="deleteCompromiso('${c.id}')" class="p-1 hover:bg-red-900/30 rounded">🗑️</button></div></div></div>`}).join(''):'<p class="text-sm text-gray-500 text-center py-8">No hay compromisos con estos filtros</p>'}
-function toggleCompromisoEstado(id){const c=state.compromisos.find(x=>x.id===id);if(c.estado==='completado')c.estado='pendiente';else if(c.estado==='pendiente')c.estado='en-progreso';else c.estado='completado';saveState();renderCompromisos()}
-function renderAreaGrid(type){const g=document.getElementById(type+'-grid');const today=new Date().toISOString().split('T')[0];
-g.innerHTML=AREAS[type].map(area=>{const cs=state.compromisos.filter(c=>c.area===area.id);const pend=cs.filter(c=>c.estado!=='completado').length;const venc=cs.filter(c=>c.estado!=='completado'&&c.fechaLimite<today).length;const del=cs.filter(c=>c.delegada&&c.estado!=='completado').length;const evs=state.eventos.filter(e=>e.area===area.id).length;
-return`<div class="bg-[#16233A] rounded-xl border border-[#24344F] p-5 card-hover"><div class="flex items-center gap-3 mb-4"><div class="w-10 h-10 rounded-lg flex items-center justify-center text-xl" style="background:${area.color}15">${area.icon}</div><div><h4 class="font-bold text-[#EAF2FF] text-sm">${area.nombre}</h4><p class="text-xs text-gray-500">${cs.length} compromisos totales</p></div></div><div class="grid grid-cols-2 gap-2 mb-4"><div class="bg-[#1D2E4A] rounded-lg p-2 text-center"><p class="text-lg font-bold text-[#EAF2FF]">${pend}</p><p class="text-xs text-gray-500">Pendientes</p></div><div class="bg-[#1D2E4A] rounded-lg p-2 text-center"><p class="text-lg font-bold ${venc>0?'text-red-400':'text-green-400'}">${venc}</p><p class="text-xs text-gray-500">Vencidos</p></div><div class="bg-[#1D2E4A] rounded-lg p-2 text-center"><p class="text-lg font-bold text-purple-400">${del}</p><p class="text-xs text-gray-500">Delegados</p></div><div class="bg-[#1D2E4A] rounded-lg p-2 text-center"><p class="text-lg font-bold text-blue-400">${evs}</p><p class="text-xs text-gray-500">Eventos</p></div></div></div>`}).join('')}
-function renderDelegaciones(){const today=new Date().toISOString().split('T')[0];const L={'pendiente':'Pendiente','en-progreso':'En progreso','completado':'Completado'};
-document.getElementById('delegaciones-lista').innerHTML=state.delegaciones.length?state.delegaciones.map(d=>{const v=d.fechaLimite<today&&d.estado!=='completado';return`<div class="bg-[#16233A] rounded-xl border border-[#24344F] p-4 card-hover ${v?'border-red-900':''}"><div class="flex items-start gap-3"><div class="w-8 h-8 bg-purple-900/40 rounded-lg flex items-center justify-center flex-shrink-0">⚡</div><div class="flex-1"><h4 class="text-sm font-semibold text-[#EAF2FF]">${d.tarea}</h4><div class="flex items-center gap-3 mt-1 flex-wrap"><span class="text-xs text-gray-500">👤 <strong>${d.delegadoA}</strong></span><span class="text-xs text-gray-500">📅 ${formatDateShort(d.fechaDelegacion)}</span><span class="text-xs ${v?'text-red-400 font-semibold':'text-gray-500'}">⏰ ${formatDateShort(d.fechaLimite)} ${v?'(VENCIDO)':''}</span></div>${d.notas?`<p class="text-xs text-gray-500 mt-1">📝 ${d.notas}</p>`:''}</div><div class="flex items-center gap-2"><select onchange="updateDelegacionEstado('${d.id}',this.value)" class="text-xs border rounded-lg px-2 py-1"><option value="pendiente" ${d.estado==='pendiente'?'selected':''}>Pendiente</option><option value="en-progreso" ${d.estado==='en-progreso'?'selected':''}>En progreso</option><option value="completado" ${d.estado==='completado'?'selected':''}>Completado</option></select><button onclick="deleteDelegacion('${d.id}')" class="p-1 hover:bg-red-900/30 rounded">🗑️</button></div></div></div>`}).join(''):'<p class="text-sm text-gray-500 text-center py-8">No hay delegaciones</p>'}
-function updateDelegacionEstado(id,e){const d=state.delegaciones.find(x=>x.id===id);d.estado=e;saveState();renderDelegaciones()}
-function deleteDelegacion(id){if(!confirm('¿Eliminar esta delegación?'))return;state.delegaciones=state.delegaciones.filter(d=>d.id!==id);saveState();renderDelegaciones()}
-function renderReportes(){const t=new Date();const sw=new Date(t);sw.setDate(t.getDate()-t.getDay()+1);const ew=new Date(sw);ew.setDate(sw.getDate()+6);const ws=sw.toISOString().split('T')[0],we=ew.toISOString().split('T')[0];
-document.getElementById('reporte-semanal').innerHTML=`<div class="flex justify-between p-3 bg-[#1D2E4A] rounded-lg"><span class="text-sm text-gray-300">Reuniones programadas</span><span class="text-lg font-bold text-[#EAF2FF]">${state.reuniones.length}</span></div><div class="flex justify-between p-3 bg-[#1D2E4A] rounded-lg"><span class="text-sm text-gray-300">Compromisos activos</span><span class="text-lg font-bold text-[#EAF2FF]">${state.compromisos.filter(c=>c.estado!=='completado').length}</span></div><div class="flex justify-between p-3 bg-[#1D2E4A] rounded-lg"><span class="text-sm text-gray-300">Completados</span><span class="text-lg font-bold text-green-400">${state.compromisos.filter(c=>c.estado==='completado').length}</span></div><div class="flex justify-between p-3 bg-[#1D2E4A] rounded-lg"><span class="text-sm text-gray-300">Delegaciones activas</span><span class="text-lg font-bold text-purple-400">${state.delegaciones.filter(d=>d.estado!=='completado').length}</span></div><div class="flex justify-between p-3 bg-[#1D2E4A] rounded-lg"><span class="text-sm text-gray-300">Eventos esta semana</span><span class="text-lg font-bold text-blue-400">${state.eventos.filter(e=>e.fecha>=ws&&e.fecha<=we).length}</span></div>`;
-const c3=document.getElementById('chart-tiempo');if(c3._chart)c3._chart.destroy();c3._chart=new Chart(c3,{type:'pie',data:{labels:['Reuniones','Seguimiento delegaciones','Gestión propia'],datasets:[{data:[state.reuniones.length,state.compromisos.filter(c=>c.delegada).length,state.compromisos.filter(c=>!c.delegada).length],backgroundColor:['#3B82F6','#8B5CF6','#25D366'],borderWidth:0}]},options:{responsive:true,plugins:{legend:{position:'bottom'}}}});
-const c4=document.getElementById('chart-detalle');if(c4._chart)c4._chart.destroy();const all=getAllAreas();c4._chart=new Chart(c4,{type:'bar',data:{labels:all.map(a=>a.nombre),datasets:[{label:'Pendientes',data:all.map(a=>state.compromisos.filter(c=>c.area===a.id&&c.estado!=='completado').length),backgroundColor:'#FBBF24',borderRadius:4},{label:'Completados',data:all.map(a=>state.compromisos.filter(c=>c.area===a.id&&c.estado==='completado').length),backgroundColor:'#25D366',borderRadius:4}]},options:{responsive:true,scales:{x:{stacked:true},y:{stacked:true,beginAtZero:true,ticks:{stepSize:1}}},plugins:{legend:{position:'bottom'}}}})}
-function renderIntegraciones(){if(typeof INTEGRATIONS==='undefined')return;const its=[{n:'SUPABASE · Banco de dados',d:'Clientes, projetos e compromissos reais.',f:'dbSalvar',l:10},{n:'SUPABASE AUTH · Login',d:'Só você entra no painel.',f:'authLogin',l:16},{n:'MCP · Agente de IA',d:'Hermes consulta seu banco via Telegram.',f:'iaConsultar',l:22},{n:'WHATSAPP · Follow-up',d:'Mensagens automáticas de prazo.',f:'whatsNotificar',l:28},{n:'EMAIL · Propostas',d:'Propostas e relatórios por e-mail.',f:'emailEnviar',l:34},{n:'CRON · Rotinas',d:'Verifica vencimentos todo dia 8h.',f:'cronVencimentos',l:40}];
-document.getElementById('grid-int').innerHTML=its.map(i=>`<div class="bg-[#16233A] rounded-xl border border-[#24344F] p-5"><h4 class="text-sm font-semibold text-[#EAF2FF] mb-1"><span class="inline-block w-2 h-2 rounded-full bg-red-400 mr-2 shadow-[0_0_10px_rgba(248,113,113,.6)]"></span>${i.n}</h4><p class="text-xs text-gray-500 mb-3">${i.d}</p><button class="w-full bg-[#1D2E4A] border border-[#2E4165] text-[#EAF2FF] py-2 rounded-lg text-xs font-semibold hover:border-[#25D366] hover:text-[#25D366]" onclick="${i.f}('teste','teste');alert('Offline agora → ative na linha ${i.l} do integrations.js')">Testar · linha ${i.l}</button></div>`).join('')}
-function openModal(type,editId){const modal=document.getElementById('modal-overlay');modal.classList.remove('hidden');const title=document.getElementById('modal-title');const body=document.getElementById('modal-body');
-if(type==='reunion'){const r=editId?state.reuniones.find(x=>x.id===editId):null;title.textContent=r?'Editar Reunión':'Nueva Reunión';body.innerHTML=`<form onsubmit="saveReunion(event,'${editId||''}')" class="space-y-4"><div><label class="text-xs font-semibold text-gray-400 mb-1 block">Título</label><input type="text" id="m-titulo" value="${r?r.titulo:''}" required class="w-full border rounded-lg px-3 py-2"></div><div class="grid grid-cols-2 gap-3"><div><label class="text-xs font-semibold text-gray-400 mb-1 block">Tipo</label><select id="m-tipo" class="w-full border rounded-lg px-3 py-2"><option value="frecuente" ${r&&r.tipo==='frecuente'?'selected':''}>Frecuente</option><option value="ocasional" ${r&&r.tipo==='ocasional'?'selected':''}>Ocasional</option></select></div><div><label class="text-xs font-semibold text-gray-400 mb-1 block">Fecha</label><input type="date" id="m-fecha" value="${r?r.fecha:new Date().toISOString().split('T')[0]}" required class="w-full border rounded-lg px-3 py-2"></div></div><div class="grid grid-cols-2 gap-3"><div><label class="text-xs font-semibold text-gray-400 mb-1 block">Hora</label><input type="text" id="m-hora" value="${r?r.hora:'9:00 AM'}" class="w-full border rounded-lg px-3 py-2"></div><div><label class="text-xs font-semibold text-gray-400 mb-1 block">Duración</label><input type="text" id="m-duracion" value="${r?r.duracion:'1h'}" class="w-full border rounded-lg px-3 py-2"></div></div><div><label class="text-xs font-semibold text-gray-400 mb-1 block">Participantes (separados por coma)</label><input type="text" id="m-participantes" value="${r?r.participantes.join(', '):''}" class="w-full border rounded-lg px-3 py-2"></div><div><label class="text-xs font-semibold text-gray-400 mb-1 block">Notas</label><textarea id="m-notas" rows="2" class="w-full border rounded-lg px-3 py-2">${r?r.notas:''}</textarea></div><button type="submit" class="w-full bg-[#25D366] text-[#04240f] py-2.5 rounded-lg font-semibold">Guardar Reunión</button></form>`}
-else if(type==='compromiso'){const c=editId?state.compromisos.find(x=>x.id===editId):null;title.textContent=c?'Editar Compromiso':'Nuevo Compromiso';const all=getAllAreas();body.innerHTML=`<form onsubmit="saveCompromiso(event,'${editId||''}')" class="space-y-4"><div><label class="text-xs font-semibold text-gray-400 mb-1 block">Título</label><input type="text" id="mc-titulo" value="${c?c.titulo:''}" required class="w-full border rounded-lg px-3 py-2"></div><div class="grid grid-cols-2 gap-3"><div><label class="text-xs font-semibold text-gray-400 mb-1 block">Área</label><select id="mc-area" class="w-full border rounded-lg px-3 py-2">${all.map(a=>`<option value="${a.id}" ${c&&c.area===a.id?'selected':''}>${a.nombre}</option>`).join('')}</select></div><div><label class="text-xs font-semibold text-gray-400 mb-1 block">Prioridad</label><select id="mc-prioridad" class="w-full border rounded-lg px-3 py-2"><option value="urgente" ${c&&c.prioridad==='urgente'?'selected':''}>🔴 Urgente</option><option value="alta" ${c&&c.prioridad==='alta'?'selected':''}>🟠 Alta</option><option value="media" ${!c||c.prioridad==='media'?'selected':''}>🔵 Media</option><option value="baja" ${c&&c.prioridad==='baja'?'selected':''}>🟢 Baja</option></select></div></div><div class="grid grid-cols-2 gap-3"><div><label class="text-xs font-semibold text-gray-400 mb-1 block">Responsable</label><input type="text" id="mc-responsable" value="${c?c.responsable:''}" required class="w-full border rounded-lg px-3 py-2"></div><div><label class="text-xs font-semibold text-gray-400 mb-1 block">Fecha límite</label><input type="date" id="mc-fechalimite" value="${c?c.fechaLimite:new Date(Date.now()+7*864e5).toISOString().split('T')[0]}" required class="w-full border rounded-lg px-3 py-2"></div></div><div class="grid grid-cols-2 gap-3"><div><label class="text-xs font-semibold text-gray-400 mb-1 block">Origen</label><input type="text" id="mc-origen" value="${c?c.origen:''}" class="w-full border rounded-lg px-3 py-2"></div><div><label class="text-xs font-semibold text-gray-400 mb-1 block">Estado</label><select id="mc-estado" class="w-full border rounded-lg px-3 py-2"><option value="pendiente" ${!c||c.estado==='pendiente'?'selected':''}>Pendiente</option><option value="en-progreso" ${c&&c.estado==='en-progreso'?'selected':''}>En progreso</option><option value="completado" ${c&&c.estado==='completado'?'selected':''}>Completado</option></select></div></div><div class="flex items-center gap-2"><input type="checkbox" id="mc-delegada" ${c&&c.delegada?'checked':''} class="rounded"><label for="mc-delegada" class="text-xs text-gray-400">Este compromiso fue delegado</label></div><button type="submit" class="w-full bg-[#25D366] text-[#04240f] py-2.5 rounded-lg font-semibold">Guardar Compromiso</button></form>`}
-else if(type==='evento'){const e=editId?state.eventos.find(x=>x.id===editId):null;title.textContent=e?'Editar Evento':'Nuevo Evento';body.innerHTML=`<form onsubmit="saveEvento(event,'${editId||''}')" class="space-y-4"><div><label class="text-xs font-semibold text-gray-400 mb-1 block">Título</label><input type="text" id="me-titulo" value="${e?e.titulo:''}" required class="w-full border rounded-lg px-3 py-2"></div><div class="grid grid-cols-2 gap-3"><div><label class="text-xs font-semibold text-gray-400 mb-1 block">Tipo</label><select id="me-tipo" class="w-full border rounded-lg px-3 py-2"><option value="reunion" ${e&&e.tipo==='reunion'?'selected':''}>Reunión</option><option value="externa" ${e&&e.tipo==='externa'?'selected':''}>Externa</option><option value="campo" ${e&&e.tipo==='campo'?'selected':''}>Visita/Campo</option><option value="personal" ${e&&e.tipo==='personal'?'selected':''}>Personal</option></select></div><div><label class="text-xs font-semibold text-gray-400 mb-1 block">Área</label><select id="me-area" class="w-full border rounded-lg px-3 py-2"><option value="direccion" ${e&&e.area==='direccion'?'selected':''}>Dirección</option>${getAllAreas().map(a=>`<option value="${a.id}" ${e&&e.area===a.id?'selected':''}>${a.nombre}</option>`).join('')}</select></div></div><div class="grid grid-cols-2 gap-3"><div><label class="text-xs font-semibold text-gray-400 mb-1 block">Fecha</label><input type="date" id="me-fecha" value="${e?e.fecha:new Date().toISOString().split('T')[0]}" required class="w-full border rounded-lg px-3 py-2"></div><div><label class="text-xs font-semibold text-gray-400 mb-1 block">Hora</label><input type="text" id="me-hora" value="${e?e.hora:'9:00 AM'}" class="w-full border rounded-lg px-3 py-2"></div></div><div><label class="text-xs font-semibold text-gray-400 mb-1 block">Notas</label><textarea id="me-notas" rows="2" class="w-full border rounded-lg px-3 py-2">${e?e.notas:''}</textarea></div><button type="submit" class="w-full bg-[#25D366] text-[#04240f] py-2.5 rounded-lg font-semibold">Guardar Evento</button></form>`}
-else{title.textContent='Nueva Delegación';body.innerHTML=`<form onsubmit="saveDelegacion(event)" class="space-y-4"><div><label class="text-xs font-semibold text-gray-400 mb-1 block">Tarea a delegar</label><input type="text" id="md-tarea" required class="w-full border rounded-lg px-3 py-2"></div><div><label class="text-xs font-semibold text-gray-400 mb-1 block">Delegar a</label><input type="text" id="md-delegado" required class="w-full border rounded-lg px-3 py-2"></div><div class="grid grid-cols-2 gap-3"><div><label class="text-xs font-semibold text-gray-400 mb-1 block">Fecha límite</label><input type="date" id="md-fechalimite" value="${new Date(Date.now()+7*864e5).toISOString().split('T')[0]}" required class="w-full border rounded-lg px-3 py-2"></div><div><label class="text-xs font-semibold text-gray-400 mb-1 block">Estado inicial</label><select id="md-estado" class="w-full border rounded-lg px-3 py-2"><option value="pendiente">Pendiente</option><option value="en-progreso">En progreso</option></select></div></div><div><label class="text-xs font-semibold text-gray-400 mb-1 block">Notas</label><textarea id="md-notas" rows="2" class="w-full border rounded-lg px-3 py-2"></textarea></div><button type="submit" class="w-full bg-[#25D366] text-[#04240f] py-2.5 rounded-lg font-semibold">Crear Delegación</button></form>`}}
-function closeModal(){document.getElementById('modal-overlay').classList.add('hidden')}
-function saveReunion(e,editId){e.preventDefault();const d={titulo:document.getElementById('m-titulo').value,tipo:document.getElementById('m-tipo').value,fecha:document.getElementById('m-fecha').value,hora:document.getElementById('m-hora').value,duracion:document.getElementById('m-duracion').value,participantes:document.getElementById('m-participantes').value.split(',').map(s=>s.trim()).filter(Boolean),notas:document.getElementById('m-notas').value};if(editId){Object.assign(state.reuniones.find(x=>x.id===editId),d)}else{d.id='r'+Date.now();d.acuerdos=[];state.reuniones.push(d)}saveState();closeModal();renderReuniones()}
-function saveCompromiso(e,editId){e.preventDefault();const d={titulo:document.getElementById('mc-titulo').value,area:document.getElementById('mc-area').value,prioridad:document.getElementById('mc-prioridad').value,responsable:document.getElementById('mc-responsable').value,fechaLimite:document.getElementById('mc-fechalimite').value,origen:document.getElementById('mc-origen').value,estado:document.getElementById('mc-estado').value,delegada:document.getElementById('mc-delegada').checked};if(editId){Object.assign(state.compromisos.find(x=>x.id===editId),d)}else{d.id='c'+Date.now();d.fechaCreacion=new Date().toISOString().split('T')[0];state.compromisos.push(d)}saveState();closeModal();renderCompromisos()}
-function saveEvento(e,editId){e.preventDefault();const d={titulo:document.getElementById('me-titulo').value,tipo:document.getElementById('me-tipo').value,area:document.getElementById('me-area').value,fecha:document.getElementById('me-fecha').value,hora:document.getElementById('me-hora').value,notas:document.getElementById('me-notas').value};if(editId){Object.assign(state.eventos.find(x=>x.id===editId),d)}else{d.id='e'+Date.now();state.eventos.push(d)}saveState();closeModal();renderAgenda()}
-function saveDelegacion(e){e.preventDefault();state.delegaciones.push({id:'d'+Date.now(),tarea:document.getElementById('md-tarea').value,delegadoA:document.getElementById('md-delegado').value,fechaDelegacion:new Date().toISOString().split('T')[0],fechaLimite:document.getElementById('md-fechalimite').value,estado:document.getElementById('md-estado').value,notas:document.getElementById('md-notas').value});saveState();closeModal();renderDelegaciones()}
-function editReunion(id){openModal('reunion',id)}function editCompromiso(id){openModal('compromiso',id)}function editEvento(id){openModal('evento',id)}
-function deleteReunion(id){if(!confirm('¿Eliminar esta reunión y sus acuerdos?'))return;state.reuniones=state.reuniones.filter(r=>r.id!==id);saveState();renderReuniones()}
-function deleteCompromiso(id){if(!confirm('¿Eliminar este compromiso?'))return;state.compromisos=state.compromisos.filter(c=>c.id!==id);saveState();renderCompromisos()}
-function deleteEvento(id){if(!confirm('¿Eliminar este evento?'))return;state.eventos=state.eventos.filter(e=>e.id!==id);saveState();renderAgenda()}
-function openQuickAdd(){const c=prompt('¿Qué desea crear?\n1 - Reunión\n2 - Compromiso\n3 - Evento\n4 - Delegación');if(c==='1')openModal('reunion');else if(c==='2')openModal('compromiso');else if(c==='3')openModal('evento');else if(c==='4')openModal('delegacion')}
-function toggleNotifications(){const p=document.getElementById('notif-panel');p.classList.toggle('hidden');if(!p.classList.contains('hidden'))renderNotifications()}
-function renderNotifications(){const today=new Date().toISOString().split('T')[0];const n=[];state.compromisos.filter(c=>c.estado!=='completado'&&c.fechaLimite<today).forEach(c=>n.push({t:'danger',x:`⚠️ Vencido: ${c.titulo}`,s:`Responsable: ${c.responsable}`}));const in3=new Date();in3.setDate(in3.getDate()+3);state.compromisos.filter(c=>c.estado!=='completado'&&c.fechaLimite>=today&&c.fechaLimite<=in3.toISOString().split('T')[0]).forEach(c=>n.push({t:'warning',x:`⏰ Próximo a vencer: ${c.titulo}`,s:`Límite: ${formatDateShort(c.fechaLimite)}`}));state.eventos.filter(e=>e.fecha===today).forEach(e=>n.push({t:'info',x:`📅 Hoy: ${e.titulo}`,s:e.hora}));
-document.getElementById('notif-list').innerHTML=n.length?n.map(x=>`<div class="p-2.5 rounded-lg ${x.t==='danger'?'bg-red-900/30':x.t==='warning'?'bg-amber-900/30':'bg-blue-900/30'} mb-1.5"><p class="text-xs font-medium text-gray-200">${x.x}</p><p class="text-xs text-gray-500">${x.s}</p></div>`).join(''):'<p class="text-sm text-gray-500 text-center py-4">Todo al día ✨</p>';
-document.getElementById('notif-badge').textContent=n.length;document.getElementById('notif-badge').classList.toggle('hidden',n.length===0)}
-function formatDateShort(ds){const d=new Date(ds+'T12:00:00');const m=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];return`${d.getDate()} ${m[d.getMonth()]}`}
-function formatDateLong(ds){const d=new Date(ds+'T12:00:00');const dd=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];const mm=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];return`${dd[d.getDay()]}, ${d.getDate()} de ${mm[d.getMonth()]}`}
-function init(){loadState();const now=new Date();const dd=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];const mm=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];document.getElementById('current-date').textContent=`${dd[now.getDay()]}, ${now.getDate()} de ${mm[now.getMonth()]}`;renderDashboard();renderNotifications();
-document.addEventListener('click',e=>{const p=document.getElementById('notif-panel');if(!p.classList.contains('hidden')&&!e.target.closest('#notif-panel')&&!e.target.closest('[onclick*="toggleNotifications"]'))p.classList.add('hidden')});
-document.getElementById('modal-overlay').addEventListener('click',e=>{if(e.target===document.getElementById('modal-overlay'))closeModal()})}
-init();
-</script>
+<script src="script.js"></script>
 </body>
-</html>
+                          </html>
